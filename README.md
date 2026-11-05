@@ -1,17 +1,17 @@
-# Landing page ladangpangan.id (situs perusahaan)
+# Situs perusahaan ladangpangan.id
 
-Situs perusahaan PT Ladang Pangan Indonesia. Toko online ada di repo terpisah (`landingpage`, marketplace.ladangpangan.id).
+Situs statis PT Ladang Pangan Indonesia (beranda dan `/kontak`). Toko online ada di repo terpisah (`landingpage`, marketplace.ladangpangan.id).
 
-## Aset merek
-- `public/logo-ayam.svg`: kepala ayam hijau tua.
-- Favicon (HARUS sama dengan toko online): `public/favicon.svg`, `public/favicon.ico`, `public/icon-512.png`, `public/apple-touch-icon.png`.
+- Isi situs: folder `site/` (HTML + CSS biasa, tanpa build).
+- Server: nginx di Docker (`Dockerfile`, `nginx.conf`), HTTPS lewat Traefik (label di `docker-compose.yaml`).
+- Alamat yang tidak dikenal diarahkan ke beranda (301); `www.` diarahkan ke `ladangpangan.id`.
+- Favicon dan logo HARUS sama dengan toko online (`site/favicon.*`, `site/logo-ayam.svg`).
 
-Pasang di `<head>`:
+## Pasang di VPS (Hostinger)
+`vps_docker_create(virtualMachineId=1956504, project_name="ladang-landingpage-web", content="https://github.com/ladangpangan/landingpagewebsite")`. Alat membaca cabang `master`, jadi `master` harus sama dengan `main`. Tanpa variabel environment. Jangan memakai nama proyek `ladang-landing`.
 
-```html
-<link rel="icon" href="/favicon.ico" sizes="48x48">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-```
+## DNS (Hostinger)
+`@` A 148.230.102.34 dan `www` CNAME ladangpangan.id. Jangan ubah MX/SPF/DKIM/DMARC (email) dan subdomain lain.
 
-Desain halaman ada di Claude (Artifact "Ladang Pangan Landing Page"); belum dibangun/dipasang.
+## Mengubah isi
+Edit file di `site/`, perbarui `lastmod` di `site/sitemap.xml`, lalu pasang ulang seperti di atas.

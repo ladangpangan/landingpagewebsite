@@ -1,0 +1,26 @@
+# Situs perusahaan ladangpangan.id (statis, nginx). Nama proyek Docker: ladang-landingpage-web.
+# JANGAN memakai nama proyek `ladang-landing` (itu toko online marketplace).
+# Traefik (sudah terpasang di VPS KVM 2) mengurus HTTPS dan arah trafik.
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      # ladangpangan.id
+      - "traefik.http.routers.lpweb.rule=Host(`ladangpangan.id`)"
+      - "traefik.http.routers.lpweb.entrypoints=websecure"
+      - "traefik.http.routers.lpweb.tls=true"
+      - "traefik.http.routers.lpweb.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.lpweb.service=lpweb"
+      - "traefik.http.services.lpweb.loadbalancer.server.port=80"
+      # www.ladangpangan.id -> ladangpangan.id (301)
+      - "traefik.http.routers.lpweb-www.rule=Host(`www.ladangpangan.id`)"
+      - "traefik.http.routers.lpweb-www.entrypoints=websecure"
+      - "traefik.http.routers.lpweb-www.tls=true"
+      - "traefik.http.routers.lpweb-www.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.lpweb-www.service=lpweb"
+      - "traefik.http.routers.lpweb-www.middlewares=lpweb-redirect"
+      - "traefik.http.middlewares.lpweb-redirect.redirectregex.regex=^https://www\\.ladangpangan\\.id/(.*)"
+      - "traefik.http.middlewares.lpweb-redirect.redirectregex.replacement=https://ladangpangan.id/$${1}"
+      - "traefik.http.middlewares.lpweb-redirect.redirectregex.permanent=true"
