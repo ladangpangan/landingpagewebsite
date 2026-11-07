@@ -1,5 +1,7 @@
 (function () {
   'use strict';
+  // Tanda bahwa skrip jalan: bila tidak (diblokir/gagal), halaman otomatis menampilkan semua isi tanpa efek gerak.
+  window.__lpOk = true;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var d = document;
 
