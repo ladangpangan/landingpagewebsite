@@ -66,17 +66,4 @@
     });
     hero.addEventListener('pointerleave', function () { a.style.translate = ''; b.style.translate = ''; });
   }
-
-  // Perbesar gambar sertifikat
-  var dlg = d.getElementById('lb');
-  if (dlg && dlg.showModal) {
-    var img = dlg.querySelector('img');
-    d.querySelectorAll('[data-zoom]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        img.src = b.getAttribute('data-zoom'); img.alt = b.getAttribute('data-alt') || '';
-        dlg.showModal();
-      });
-    });
-    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === img) dlg.close(); });
-  }
 })();
